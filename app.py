@@ -13,26 +13,37 @@ tab1, tab2 = st.tabs(["Tab1","Tab2"])
 
 
 with tab1:
-    
-    #análisis univariado
-    fig, ax=plt.subplots(1,3, figsize=(10,4))
-    #educ
+    fig, ax = plt.subplots(1, 3, figsize=(10, 4))
+
+# educ
     tab_freq = ran["educacion"].value_counts().sort_index()
-    ax[0].bar(tab_freq.index, tab_freq.values)
-    #edad
-    ax[1].hist(ran["edad"], bins=30)  #Numero de intervalos
-    #wage
-    ax[2].hist(ran["salario"], bins=40)
+    ax[0].bar(tab_freq.index, tab_freq.values, color='skyblue')  # Color personalizado
+
+# edad
+    ax[1].hist(ran["edad"], bins=30, color='orange')  # Color personalizado
+
+# wage
+    ax[2].hist(ran["salario"], bins=40, color='green')  # Color personalizado
+
     st.pyplot(fig)
-    #anális bivariado
-    fig, ax = plt.subplots(1,2, figsize=(10,4))
-    #educ vs wage
-    ax[0].scatter(ran["educacion"], ran["salario"])
-    #edad vs wage
-    ax[1].scatter(ran["edad"], ran["salario"])
+
+# análisis bivariado
+    fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+# educ vs wage
+    ax[0].scatter(ran["educacion"], ran["salario"], color='purple')  # Color personalizado
+
+# edad vs wage
+    ax[1].scatter(ran["edad"], ran["salario"], color='red')  # Color personalizado
 
     st.pyplot(fig)
 
 with tab2:
-    fig = px.treemap(data_frame = apgn, path=[px.Constant("PGN"),"Nombre Sector","Tipo de gasto"],values="Valor")
-    st.plotly_chart(fig)
+    fig = px.treemap(
+    data_frame=apgn,
+    path=[px.Constant("PGN"), "Nombre Sector", "Tipo de gasto"],
+    values="Valor",
+    color="Tipo de gasto",  # Esto activa el color por categoría
+    color_discrete_sequence=px.colors.qualitative.Pastel)
+
+st.plotly_chart(fig)
